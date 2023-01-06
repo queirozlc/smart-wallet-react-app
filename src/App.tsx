@@ -3,14 +3,14 @@ import { GlobalStyle } from "./styles/global";
 import { defaultTheme } from "./styles/themes/default";
 
 import Login from "./pages/Login";
-import Header from "./components/Header";
+import Cadastro from "./pages/Cadastro";
 
 function App() {
   return (
     <div>
       <ThemeProvider theme={defaultTheme}>
         <GlobalStyle />
-        <Login />
+        <Cadastro />
       </ThemeProvider>
     </div>
   );

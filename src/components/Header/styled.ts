@@ -14,6 +14,5 @@ export const HeaderComponent = styled.header`
 
     div {
         padding: 3rem;
-        
     }
 `;

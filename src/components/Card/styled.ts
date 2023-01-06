@@ -6,7 +6,6 @@ export const CardGlass = styled.div`
     backdrop-filter: blur(9.85px);
     -webkit-backdrop-filter: blur(8.8px);
     width: 55%;
-    height: 55%;
     padding: 3.5rem;
     transition: .4s;
     display: flex;

@@ -47,6 +47,5 @@ export const GlobalStyle = createGlobalStyle`
 
     label {
         font-weight: 500;
-        font-size: ${({ theme }) => theme.textSizes["text-regular-l"]};
     }
 `;

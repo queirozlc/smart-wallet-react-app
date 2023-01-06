@@ -15,13 +15,7 @@ const Login = () => {
 
     return (
         <>
-            <Header>
-                <div>
-                    <h2>
-                        Smart<span>Wallet</span>
-                    </h2>
-                </div>
-            </Header>
+            <Header />
             <LoginSection>
 
                 <Card>
