@@ -14,7 +14,7 @@ export const HeaderComponent = styled.header`
 
     > div {
         padding: 3rem;
-        
+
     }
 
     h2 {
@@ -22,7 +22,7 @@ export const HeaderComponent = styled.header`
     }
 
     h3 {
-        display: inline-block;
+        display: inline;
     }
 
     nav {
@@ -35,6 +35,7 @@ export const HeaderComponent = styled.header`
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        margin-right: 2.75rem;
         gap: 3rem;
     }
 

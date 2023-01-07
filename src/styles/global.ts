@@ -26,7 +26,7 @@ export const GlobalStyle = createGlobalStyle`
         list-style: none;
     }
 
-    input, button {
+    input, button, select {
         font-family: ${({ theme }) => theme.fonts.regular};
         font-weight: 500;
         font-size: ${({ theme }) => theme.textSizes["text-regular-m"]}

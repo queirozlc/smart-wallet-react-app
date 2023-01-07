@@ -23,7 +23,7 @@ const Home: React.FC = () => {
                         </ul>
 
                         <ul>
-                            <li><Link to="/">Lançamentos</Link></li>
+                            <li><Link to="/lancamento">Lançamentos</Link></li>
                         </ul>
                     </div>
                 </nav>
@@ -38,7 +38,7 @@ const Home: React.FC = () => {
                     <h3>Essa é sua área administrativa, você pode navegar no sistema utilizando os botões abaixo.</h3>
 
                     <div>
-                        <Button title="Consultar Lançamento" />
+                        <Link to="/lancamento"><Button title="Consultar Lançamento" /></Link>
                         <Button title="Cadastrar Lançamento" />
                     </div>
                 </Card>
