@@ -19,10 +19,13 @@ export const HeaderComponent = styled.header`
 
     h2 {
         color: ${({ theme }) => theme.colors["base-white"]};
+        font-size: ${({ theme }) => theme.textSizes["title-title-m"]};
+        display: inline;
     }
 
-    h3 {
+    h1 {
         display: inline;
+        font-size: 1.75rem;
     }
 
     nav {

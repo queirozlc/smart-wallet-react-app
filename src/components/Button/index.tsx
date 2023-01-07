@@ -2,12 +2,13 @@ import { ButtonComponent } from "./styled";
 
 interface Props {
     title: string,
-    margin?: string
+    margin?: string,
+    onClick?: () => void;
 }
 
-const Button: React.FC<Props> = ({ title, margin }) => {
+const Button: React.FC<Props> = ({ title, margin, onClick }) => {
     return (
-        <ButtonComponent style={{ margin: margin }}>
+        <ButtonComponent style={{ margin: margin }} onClick={onClick}>
             {title}
         </ButtonComponent>
     );

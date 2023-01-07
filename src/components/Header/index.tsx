@@ -8,9 +8,7 @@ const Header: React.FC<Props> = ({ children }) => {
     return (
         <HeaderComponent>
             <div>
-                <h2>
-                    Smart<h3>Wallet</h3>
-                </h2>
+                <h2>Smart</h2><h1>Wallet</h1>
             </div>
             {children}
         </HeaderComponent>

@@ -14,6 +14,16 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("")
 
+    const entrar = () => {
+        const obj = {
+            email: email,
+            senha: senha,
+        };
+
+        console.log(obj.email);
+        console.log(obj.senha);
+    }
+
     return (
         <>
             <Header />
@@ -44,7 +54,7 @@ const Login = () => {
                         />
                     </Form>
 
-                    <Button title="Entrar" margin={"0 auto"} />
+                    <Button title="Entrar" margin={"0 auto"} onClick={entrar} />
 
                     <p>
                         Ainda não possui uma conta? <Link to="/register">Crie sua Conta</Link>

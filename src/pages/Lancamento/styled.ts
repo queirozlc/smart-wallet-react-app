@@ -3,16 +3,23 @@ import { LoginSection } from "../Login/styled";
 
 export const LancamentoSection = styled(LoginSection)`
 
+    > div {
+        width: 75%;
+    }
+
     > div > form {
         display: grid;
-        justify-content: center;
+    }
+
+    > div > form > div { 
+        min-width: 50%;
     }
 
     > div > div {
         margin-top: 2rem;
         display: flex;
         gap: 1rem;
-        justify-content: center;
+        justify-content: start;
     }
 
 `;

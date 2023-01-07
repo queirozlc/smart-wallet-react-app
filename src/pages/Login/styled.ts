@@ -11,6 +11,10 @@ export const LoginSection = styled.section`
     justify-content: center;
     align-items: center;
 
+    > div > form > div {
+        min-width: 80%;
+    }
+
     h1 {
         font-size: ${({ theme }) => theme.textSizes["title-title-l"]};
     }
