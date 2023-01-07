@@ -9,7 +9,7 @@ const Header: React.FC<Props> = ({ children }) => {
         <HeaderComponent>
             <div>
                 <h2>
-                    Smart<span>Wallet</span>
+                    Smart<h3>Wallet</h3>
                 </h2>
             </div>
             {children}

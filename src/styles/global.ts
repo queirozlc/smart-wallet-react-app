@@ -41,7 +41,7 @@ export const GlobalStyle = createGlobalStyle`
         font-weight: 600;
     }
 
-    p,span, label {
+    p,span, label, a {
         font-family: ${({ theme }) => theme.fonts.regular};
     }
 

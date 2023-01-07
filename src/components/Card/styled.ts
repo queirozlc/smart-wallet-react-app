@@ -25,12 +25,12 @@ export const CardGlass = styled.div`
         text-align: center;
     }
 
-    span {
-        cursor: pointer;
+    a {
         text-decoration: underline;
         font-weight: 300;
         margin-left: .35rem;
         text-align: center;
+        color:${({ theme }) => theme.colors["base-white"]};
         transition: color .3s;
 
         &:hover {

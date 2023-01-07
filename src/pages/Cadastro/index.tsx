@@ -1,4 +1,5 @@
 import { CadastroSection } from './styled';
+import { Link } from 'react-router-dom';
 
 import Header from '../../components/Header';
 import Card from '../../components/Card';
@@ -70,7 +71,7 @@ const Cadastro = () => {
                     <Button title='Fazer Cadastro' margin='0 auto' />
 
                     <p>
-                        Já possui uma conta? <span>Fazer Login</span>
+                        Já possui uma conta? <Link to="/login">Fazer Login</Link>
                     </p>
                 </Card>
             </CadastroSection>

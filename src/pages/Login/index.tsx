@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/heading-has-content */
 import { useState } from "react";
 import { LoginSection } from "./styled";
+import { Link } from "react-router-dom";
 
 import Button from "../../components/Button";
 import Card from "../../components/Card";
@@ -46,7 +47,7 @@ const Login = () => {
                     <Button title="Entrar" margin={"0 auto"} />
 
                     <p>
-                        Ainda não possui uma conta? <span>Crie sua Conta</span>
+                        Ainda não possui uma conta? <Link to="/register">Crie sua Conta</Link>
                     </p>
 
 
