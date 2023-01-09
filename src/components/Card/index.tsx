@@ -7,7 +7,7 @@ interface Props {
 
 const Card: React.FC<Props> = ({ children }) => {
     return (
-        <CardGlass>
+        <CardGlass className='container'>
             {children}
         </CardGlass>
     );

@@ -30,7 +30,6 @@ export const HeaderComponent = styled.header`
 
     nav {
         width: 100%;
-        max-width: 1200px;
     }
 
     nav > div {

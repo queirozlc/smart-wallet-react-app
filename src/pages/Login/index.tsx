@@ -1,8 +1,13 @@
 /* eslint-disable jsx-a11y/heading-has-content */
 import { useState } from "react";
 import { LoginSection } from "./styled";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
+import UsuarioService from "../../api/service/UsuarioService";
+import LocalStorageService from "../../api/service/LocalStorageService";
+
+import Usuario from "../../@types/Usuario";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
 import Form from "../../components/Form";
@@ -11,17 +16,26 @@ import Input from "../../components/Input";
 
 const Login = () => {
     document.title = "Minhas Finanças - Login"
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("")
+    const usuarioService = new UsuarioService();
+    const navigate = useNavigate();
 
-    const entrar = () => {
-        const obj = {
+    const [email, setEmail] = useState<string>("");
+    const [senha, setSenha] = useState<string>("");
+    const [erro, setErro] = useState<string | any>("");
+
+    const autenticar = async () => {
+        const obj: Usuario = {
             email: email,
             senha: senha,
         };
-
-        console.log(obj.email);
-        console.log(obj.senha);
+        try {
+            const response = await usuarioService.autenticar(obj);
+            LocalStorageService.addItem("usuario_logado", response.data);
+            navigate("/");
+        } catch (e) {
+            const erro = e as AxiosError;
+            setErro(erro.response?.data);
+        }
     }
 
     return (
@@ -54,12 +68,15 @@ const Login = () => {
                         />
                     </Form>
 
-                    <Button title="Entrar" margin={"0 auto"} onClick={entrar} />
+                    <p>
+                        {erro}
+                    </p>
+
+                    <Button title="Entrar" margin={"0 auto"} onClick={autenticar} />
 
                     <p>
                         Ainda não possui uma conta? <Link to="/register">Crie sua Conta</Link>
                     </p>
-
 
                 </Card>
             </LoginSection>

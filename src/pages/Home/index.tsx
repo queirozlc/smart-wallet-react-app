@@ -1,15 +1,38 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { HomeContainer } from "./styled";
 import { Link } from 'react-router-dom'
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import UsuarioService from "../../api/service/UsuarioService";
 
 import Header from '../../components/Header'
 import Card from "../../components/Card";
 import Button from "../../components/Button";
+import Usuario from "../../@types/Usuario";
+import LocalStorageService from "../../api/service/LocalStorageService";
 
 const Home: React.FC = () => {
     document.title = "Minhas Finanças - Início"
-    const [nome, setNome] = useState("Lucas");
+    const usuarioService = new UsuarioService();
+
+    const [nome, setNome] = useState<string | undefined>();
     const [saldo, setSaldo] = useState(0);
+
+    const handleLogout = () => {
+        localStorage.removeItem("usuario_logado");
+    }
+
+    useEffect(() => {
+        const usuarioLogado = LocalStorageService.getItem("usuario_logado") as Usuario;
+        setNome(usuarioLogado.nome);
+
+        usuarioService.consultarSaldo(usuarioLogado.id)
+            .then(response => {
+                setSaldo(response.data);
+            }).catch(error => {
+                console.log(error);
+            });
+    }, [usuarioService]);
 
     return (
         <>
@@ -25,6 +48,10 @@ const Home: React.FC = () => {
                         <ul>
                             <li><Link to="/lancamento">Lançamentos</Link></li>
                         </ul>
+
+                        <ul>
+                            <li><Link to="/login" onClick={handleLogout}>Logout</Link></li>
+                        </ul>
                     </div>
                 </nav>
             </Header>
@@ -33,7 +60,7 @@ const Home: React.FC = () => {
 
                 <Card>
                     <h1>Olá {nome}, Seja bem-vindo !</h1>
-                    <h2>Seu saldo para o mês atual é: {saldo}</h2>
+                    <h2>Seu saldo para o mês atual é: R$ {saldo}</h2>
                     <hr />
                     <h3>Essa é sua área administrativa, você pode navegar no sistema utilizando os botões abaixo.</h3>
 

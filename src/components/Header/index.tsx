@@ -6,7 +6,7 @@ interface Props {
 
 const Header: React.FC<Props> = ({ children }) => {
     return (
-        <HeaderComponent>
+        <HeaderComponent className="container">
             <div>
                 <h2>Smart</h2><h1>Wallet</h1>
             </div>

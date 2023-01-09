@@ -48,4 +48,10 @@ export const GlobalStyle = createGlobalStyle`
     label {
         font-weight: 500;
     }
+
+    .container {
+        max-width: 1024px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 `;
