@@ -54,4 +54,26 @@ export const GlobalStyle = createGlobalStyle`
         margin-left: auto;
         margin-right: auto;
     }
+
+    .toast-title {
+        font-family: ${({ theme }) => theme.fonts.title};
+    }
+
+    .toast-message {
+        font-family: ${({ theme }) => theme.fonts.regular};
+    }
+
+    .toast-progress {
+        background: linear-gradient(50deg, rgba(88,18,93,100) 21%, rgba(31,33,104,20) 71%);
+    }
+
+    .toast {
+        background-color: ${({ theme }) => theme.colors["base-dark"]};
+        box-shadow: none !important;
+    }
+
+    table > thead > tr  {
+        font-family: ${({ theme }) => theme.fonts.title};
+        font-size: ${({ theme }) => theme.textSizes["title-title-s"]};
+    }
 `;

@@ -2,42 +2,24 @@ import { Link } from 'react-router-dom';
 import { LancamentoSection } from './styled';
 import { useState } from 'react';
 
-import Header from '../../components/Header';
-import Card from '../../components/Card';
-import Input from '../../components/Input';
-import Form from '../../components/Form';
-import ComboBox from '../../components/ComboBox';
-import Button from '../../components/Button';
+import Header from '../../../../components/Header';
+import Card from '../../../../components/Card';
+import Input from '../../../../components/Input';
+import Form from '../../../../components/Form';
+import ComboBox from '../../../../components/ComboBox';
+import Button from '../../../../components/Button';
+import LancamentoService from '../../../../api/service/LancamentoService';
+import DataTable from '../../components/Datatable';
 
 const Lancamento = () => {
-    document.title = "Minhas Finanças - Consultar Lançamentos"
+    document.title = "SmartWallet - Consultar Lançamentos"
+    const lancamentoService = new LancamentoService();
+    const meses = lancamentoService.obterListaMeses();
+    const tipos = lancamentoService.obterListaTipos();
+
     const [ano, setAno] = useState("");
     const [mes, setMes] = useState("");
     const [tipo, setTipo] = useState("");
-
-    const meses =
-        [
-            { label: 'Selecione', value: "" },
-            { label: 'Janeiro', value: 1 },
-            { label: 'Fevereiro', value: 2 },
-            { label: 'Março', value: 3 },
-            { label: 'Abril', value: 4 },
-            { label: 'Maio', value: 5 },
-            { label: 'Junho', value: 6 },
-            { label: 'Julho', value: 7 },
-            { label: 'Agosto', value: 8 },
-            { label: 'Setembro', value: 9 },
-            { label: 'Outubro', value: 10 },
-            { label: 'Novembro', value: 11 },
-            { label: 'Dezembro', value: 12 },
-        ];
-
-    const tipos =
-        [
-            { label: 'Selecione', value: '' },
-            { label: 'Receita', value: 'RECEITA' },
-            { label: 'Despesa', value: 'DESPESA' }
-        ];
 
     return (
         <>
@@ -96,6 +78,7 @@ const Lancamento = () => {
                         <Link to="/lancamento"><Button title='Cadastrar Lançamento' /></Link>
                     </div>
                 </Card>
+
 
             </LancamentoSection>
         </>

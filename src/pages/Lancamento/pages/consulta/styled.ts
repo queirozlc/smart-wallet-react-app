@@ -1,7 +1,10 @@
 import styled from "styled-components";
-import { LoginSection } from "../Login/styled";
+import { LoginSection } from "../../../Login/styled";
 
 export const LancamentoSection = styled(LoginSection)`
+
+    flex-direction: column;
+    gap: 4rem;
 
     > div {
         width: 75%;

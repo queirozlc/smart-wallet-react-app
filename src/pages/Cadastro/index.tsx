@@ -1,7 +1,7 @@
 import { CadastroSection } from './styled';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { AxiosError } from 'axios';
+import { errorMessage } from '../../components/util/Toast';
 
 import LocalStorageService from '../../api/service/LocalStorageService';
 import UsuarioService from '../../api/service/UsuarioService';
@@ -14,7 +14,7 @@ import Button from '../../components/Button';
 import Usuario from '../../@types/Usuario';
 
 const Cadastro = () => {
-    document.title = "Minhas Finanças - Cadastro"
+    document.title = "SmartWallet - Cadastro"
     const usuarioService = new UsuarioService();
     const navigate = useNavigate();
 
@@ -24,13 +24,13 @@ const Cadastro = () => {
     const [senhaConfirmacao, setSenhaConfirmacao] = useState("");
 
     const validar = (): Array<string> => {
-        const mensagens = [""];
+        const mensagens = [];
 
         if (!nome || !email || !senha || !senhaConfirmacao) {
             mensagens.push("Preencha todos os campos.");
         }
 
-        if (!email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/)) {
+        if (email && !email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/)) {
             mensagens.push("Informe um email válido.");
         }
 
@@ -44,24 +44,25 @@ const Cadastro = () => {
     const criarConta = async () => {
         const msgs = validar();
 
+        if (msgs && msgs.length > 0) {
+            msgs.forEach(msg => {
+                errorMessage(msg);
+            });
+            return false;
+        }
+
         const obj: Usuario = {
             nome: nome,
             email: email,
-            senha: senha
-        }
-
-        if (msgs && msgs.length > 0) {
-            msgs.forEach(msg => {
-            });
-            return;
-        }
+            senha: senha,
+        };
 
         try {
             const response = await usuarioService.cadastrar(obj);
             LocalStorageService.addItem("usuario_logado", response.data);
             navigate("/");
-        } catch (e) {
-            const erro = e as AxiosError;
+        } catch (error) {
+            console.log(error);
         }
 
     }

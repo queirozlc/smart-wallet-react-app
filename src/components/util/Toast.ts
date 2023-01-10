@@ -14,7 +14,17 @@ toastr.options = {
     "showEasing": "swing",
     "hideEasing": "linear",
     "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
+    "hideMethod": "fadeOut",
 }
 
-export function showMessage()
+function showMessage(message: string, title: string, type: ToastrType) {
+    toastr[type](message, title);
+}
+
+export function errorMessage(message: string) {
+    showMessage(message, "Erro :/", "error");
+}
+
+export function successMessage(message: string) {
+    showMessage(message, "Ok !", "success");
+}

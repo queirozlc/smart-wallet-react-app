@@ -3,12 +3,18 @@ import { GlobalStyle } from "./styles/global";
 import { defaultTheme } from "./styles/themes/default";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import 'toastr/build/toastr.css';
+import 'toastr/build/toastr.min.js';
+
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
 import Home from "./pages/Home";
-import Lancamento from "./pages/Lancamento";
+import Lancamento from "./pages/Lancamento/pages/consulta";
+import Error from "./pages/Error";
 
 function App() {
+
+
   return (
     <>
       <ThemeProvider theme={defaultTheme}>
@@ -19,6 +25,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Cadastro />} />
             <Route path="/lancamento" element={<Lancamento />} />
+            <Route path="/*" element={<Error />} />
           </Routes>
         </Router>
       </ThemeProvider>

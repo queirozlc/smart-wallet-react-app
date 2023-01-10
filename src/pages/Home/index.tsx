@@ -12,7 +12,7 @@ import Usuario from "../../@types/Usuario";
 import LocalStorageService from "../../api/service/LocalStorageService";
 
 const Home: React.FC = () => {
-    document.title = "Minhas Finanças - Início"
+    document.title = "SmartWallet - Início"
     const usuarioService = new UsuarioService();
 
     const [nome, setNome] = useState<string | undefined>();

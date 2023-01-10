@@ -3,6 +3,7 @@ import { useState } from "react";
 import { LoginSection } from "./styled";
 import { Link, useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
+import { errorMessage } from "../../components/util/Toast";
 
 import UsuarioService from "../../api/service/UsuarioService";
 import LocalStorageService from "../../api/service/LocalStorageService";
@@ -15,13 +16,12 @@ import Header from "../../components/Header";
 import Input from "../../components/Input";
 
 const Login = () => {
-    document.title = "Minhas Finanças - Login"
+    document.title = "SmartWallet - Login"
     const usuarioService = new UsuarioService();
     const navigate = useNavigate();
 
     const [email, setEmail] = useState<string>("");
     const [senha, setSenha] = useState<string>("");
-    const [erro, setErro] = useState<string | any>("");
 
     const autenticar = async () => {
         const obj: Usuario = {
@@ -34,7 +34,7 @@ const Login = () => {
             navigate("/");
         } catch (e) {
             const erro = e as AxiosError;
-            setErro(erro.response?.data);
+            errorMessage(erro.response?.data as string);
         }
     }
 
@@ -67,10 +67,6 @@ const Login = () => {
                             onChangeFunction={(e: React.ChangeEvent<HTMLInputElement>) => setSenha(e.target.value)}
                         />
                     </Form>
-
-                    <p>
-                        {erro}
-                    </p>
 
                     <Button title="Entrar" margin={"0 auto"} onClick={autenticar} />
 
