@@ -10,9 +10,9 @@ interface Props {
 }
 
 const ComboBox: React.FC<Props> = ({ listOptions, selectName, selectId, label, selectValue, onChange }) => {
-    const options = listOptions.map((item: { label: string, value: number | string }) => {
+    const options = listOptions.map((item: { label: string, value: number | string }, index) => {
         return (
-            <option value={item.value}>{item.label}</option>
+            <option value={item.value} key={index}>{item.label}</option>
         )
     });
 

@@ -72,8 +72,17 @@ export const GlobalStyle = createGlobalStyle`
         box-shadow: none !important;
     }
 
-    table > thead > tr  {
+    table {
+        border-collapse: collapse;
+    }
+
+    table > thead {
         font-family: ${({ theme }) => theme.fonts.title};
         font-size: ${({ theme }) => theme.textSizes["title-title-s"]};
+    }
+
+    table > tbody {
+        font-family: ${({ theme }) => theme.fonts.regular};
+        font-size: ${({ theme }) => theme.textSizes["text-regular-l"]};
     }
 `;

@@ -10,6 +10,7 @@ import ComboBox from '../../../../components/ComboBox';
 import Button from '../../../../components/Button';
 import LancamentoService from '../../../../api/service/LancamentoService';
 import DataTable from '../../components/Datatable';
+import LancamentoModel from '../../../../@types/LancamentoModel';
 
 const Lancamento = () => {
     document.title = "SmartWallet - Consultar Lançamentos"
@@ -20,6 +21,21 @@ const Lancamento = () => {
     const [ano, setAno] = useState("");
     const [mes, setMes] = useState("");
     const [tipo, setTipo] = useState("");
+    const [showTable, setShowTable] = useState(false);
+
+    function hideTable() {
+        setShowTable(false);
+    }
+
+    const lancamentos: LancamentoModel[] = [{
+        ano: 2022,
+        descricao: "Salário",
+        valor: 800,
+        mes: 12,
+        tipo: "Receita",
+        status: "Efetivado",
+        id: 1
+    }]
 
     return (
         <>
@@ -79,7 +95,7 @@ const Lancamento = () => {
                     </div>
                 </Card>
 
-
+                <DataTable isActive={showTable} hideTable={hideTable} lancamentos={lancamentos} />
             </LancamentoSection>
         </>
     );

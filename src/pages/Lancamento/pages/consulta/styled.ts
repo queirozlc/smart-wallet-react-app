@@ -3,10 +3,7 @@ import { LoginSection } from "../../../Login/styled";
 
 export const LancamentoSection = styled(LoginSection)`
 
-    flex-direction: column;
-    gap: 4rem;
-
-    > div {
+    > div:nth-last-child() {
         width: 75%;
     }
 
