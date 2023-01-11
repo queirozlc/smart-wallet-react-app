@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom';
 import { LancamentoSection } from './styled';
 import { useState } from 'react';
+import { errorMessage, successMessage, warningMessage } from '../../../../components/util/Toast';
+import { AxiosError } from 'axios';
+
+import LancamentoModel from '../../../../@types/LancamentoModel';
+import LocalStorageService from '../../../../api/service/LocalStorageService';
 
 import Header from '../../../../components/Header';
 import Card from '../../../../components/Card';
@@ -10,7 +15,6 @@ import ComboBox from '../../../../components/ComboBox';
 import Button from '../../../../components/Button';
 import LancamentoService from '../../../../api/service/LancamentoService';
 import DataTable from '../../components/Datatable';
-import LancamentoModel from '../../../../@types/LancamentoModel';
 
 const Lancamento = () => {
     document.title = "SmartWallet - Consultar Lançamentos"
@@ -18,24 +22,54 @@ const Lancamento = () => {
     const meses = lancamentoService.obterListaMeses();
     const tipos = lancamentoService.obterListaTipos();
 
-    const [ano, setAno] = useState("");
+    const [ano, setAno] = useState<string>("");
     const [mes, setMes] = useState("");
     const [tipo, setTipo] = useState("");
+    const [descricao, setDescricao] = useState("");
     const [showTable, setShowTable] = useState(false);
+    const [lancamentos, setLancamentos] = useState<LancamentoModel[]>([]);
 
     function hideTable() {
         setShowTable(false);
     }
 
-    const lancamentos: LancamentoModel[] = [{
-        ano: 2022,
-        descricao: "Salário",
-        valor: 800,
-        mes: 12,
-        tipo: "Receita",
-        status: "Efetivado",
-        id: 1
-    }]
+    const consultarLancamento = async () => {
+        const obj: LancamentoModel = {
+            valor: 0,
+            ano: ano,
+            mes: mes,
+            tipo: tipo,
+            descricao: descricao,
+            usuario: LocalStorageService.getItem("usuario_logado"),
+        };
+
+        if (!obj.ano) {
+            errorMessage("O campo de 'ano' é obrigatório.");
+            return;
+        }
+
+        try {
+            const response = await lancamentoService.buscarLancamento(obj);
+            if (!response.data || response.data.length === 0) {
+                warningMessage("Não foi encontrado nenhum lançamento.");
+                return;
+            }
+            setLancamentos(response.data);
+        } catch (e) {
+            const erro = e as AxiosError;
+            console.log(erro.response?.data);
+        }
+
+        setShowTable(true);
+    }
+
+    const deletar = async (lancamento: LancamentoModel) => {
+
+    }
+
+    const editar = async (id?: number) => {
+        console.log(lancamentos);
+    }
 
     return (
         <>
@@ -63,11 +97,20 @@ const Lancamento = () => {
                         <Input
                             inputId='ano'
                             inputName='ano'
-                            inputType='text'
+                            inputType='number'
                             inputValue={ano}
                             label="Ano:"
                             inputPlaceholder='Digite o ano'
                             onChangeFunction={e => setAno(e.target.value)}
+                        />
+                        <Input
+                            inputId='descricao'
+                            inputName='descricao'
+                            inputType='text'
+                            inputValue={descricao}
+                            label="Descrição:"
+                            inputPlaceholder='Digite a descrição'
+                            onChangeFunction={e => setDescricao(e.target.value)}
                         />
                         <ComboBox
                             listOptions={meses}
@@ -89,13 +132,19 @@ const Lancamento = () => {
                     </Form>
 
                     <div>
-                        <Button title='Consultar' />
+                        <Button title='Consultar' onClick={consultarLancamento} />
 
                         <Link to="/lancamento"><Button title='Cadastrar Lançamento' /></Link>
                     </div>
                 </Card>
 
-                <DataTable isActive={showTable} hideTable={hideTable} lancamentos={lancamentos} />
+                <DataTable
+                    isActive={showTable}
+                    hideTable={hideTable}
+                    lancamentos={lancamentos}
+                    deleteAction={deletar}
+                    editAction={editar}
+                />
             </LancamentoSection>
         </>
     );

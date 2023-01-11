@@ -11,13 +11,26 @@ export const Card = styled.div`
     flex-direction: column;
     gap: 4rem;
 
+    > div > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        width: 100%;
+    }
+
     >div {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
     }
 
-    > div > svg {
+    > div > div > h1 {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    > div > div > svg {
         position: relative;
         top: 0;
         right: 1rem;

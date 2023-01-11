@@ -9,21 +9,23 @@ import Button from "../../../../components/Button";
 interface Props {
     isActive: boolean,
     hideTable: () => void,
-    lancamentos: LancamentoModel[];
+    lancamentos: LancamentoModel[],
+    deleteAction: (lancamento: LancamentoModel) => void,
+    editAction: (id: number | undefined) => void;
 }
 
-const DataTable: React.FC<Props> = ({ isActive, hideTable, lancamentos }) => {
-
+const DataTable: React.FC<Props> = ({ isActive, hideTable, lancamentos, deleteAction, editAction }) => {
     const rows = lancamentos.map((lancamento: LancamentoModel) => {
         return (
             <tr key={lancamento.id}>
                 <td>{lancamento.descricao}</td>
-                <td>{lancamento.valor}</td>
+                <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(lancamento.valor)}</td>
                 <td>{lancamento.tipo}</td>
                 <td>{lancamento.mes}</td>
                 <td>{lancamento.status}</td>
                 <td>
-
+                    <Button title="Editar" onClick={() => editAction(lancamento.id)} />
+                    <Button title="Deletar" onClick={() => deleteAction(lancamento)} />
                 </td>
             </tr>
         );
@@ -33,7 +35,10 @@ const DataTable: React.FC<Props> = ({ isActive, hideTable, lancamentos }) => {
         <CardContainer isActive={isActive}>
             <TableCard>
                 <div>
-                    <RiCloseCircleFill size={25} cursor='pointer' onClick={hideTable} />
+                    <div>
+                        <h1>Lançamentos Cadastrados</h1>
+                        <RiCloseCircleFill size={25} cursor='pointer' onClick={hideTable} />
+                    </div>
                 </div>
                 <hr />
 

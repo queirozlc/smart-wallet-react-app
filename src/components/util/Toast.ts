@@ -9,7 +9,7 @@ toastr.options = {
     "preventDuplicates": false,
     "showDuration": 300,
     "hideDuration": 1000,
-    "timeOut": 1000,
+    "timeOut": 4000,
     "extendedTimeOut": 1000,
     "showEasing": "swing",
     "hideEasing": "linear",
@@ -27,4 +27,8 @@ export function errorMessage(message: string) {
 
 export function successMessage(message: string) {
     showMessage(message, "Ok !", "success");
+}
+
+export function warningMessage(message: string) {
+    showMessage(message, 'Ops...', "warning");
 }

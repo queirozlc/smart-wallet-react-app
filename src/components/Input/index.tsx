@@ -5,7 +5,7 @@ interface Props {
     label: string,
     inputType: string,
     inputName: string,
-    inputValue: string,
+    inputValue: string | number,
     inputPlaceholder?: string,
     onChangeFunction: (e: React.ChangeEvent<HTMLInputElement>) => void
 }

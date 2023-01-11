@@ -17,9 +17,16 @@ export const InputContainer = styled.div`
         transition: background .5s;
         font-size: ${({ theme }) => theme.textSizes["text-regular-m"]};
         border-radius: 100px;
-
+    
         &:focus{
             border-color: ${({ theme }) => theme.colors["base-background"]};
         }
     }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    
 `;
