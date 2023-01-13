@@ -12,6 +12,7 @@ import Cadastro from "./pages/Cadastro";
 import Home from "./pages/Home";
 import Lancamento from "./pages/Lancamento/pages/consulta";
 import Error from "./pages/Error";
+import LancamentoCadastro from "./pages/Lancamento/pages/LancamentoCadastro";
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Cadastro />} />
             <Route path="/lancamento" element={<Lancamento />} />
+            <Route path="/lancamentocadastro" element={<LancamentoCadastro />} />
             <Route path="/*" element={<Error />} />
           </Routes>
         </Router>

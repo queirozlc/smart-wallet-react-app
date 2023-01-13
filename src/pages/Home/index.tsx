@@ -66,7 +66,7 @@ const Home: React.FC = () => {
 
                     <div>
                         <Link to="/lancamento"><Button title="Consultar Lançamento" /></Link>
-                        <Button title="Cadastrar Lançamento" />
+                        <Link to="/lancamentocadastro"><Button title="Cadastrar Lançamento" /></Link>
                     </div>
                 </Card>
 

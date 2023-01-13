@@ -7,12 +7,13 @@ interface Props {
     inputName: string,
     inputValue: string | number,
     inputPlaceholder?: string,
-    onChangeFunction: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onChangeFunction: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    disabled?: boolean
 }
 
 const Input: React.FC<Props> =
     (
-        { inputId, label, inputType, inputName, inputValue, inputPlaceholder, onChangeFunction }
+        { inputId, label, inputType, inputName, inputValue, inputPlaceholder, onChangeFunction, disabled }
     ) => {
         return (
             <InputContainer>
@@ -25,6 +26,7 @@ const Input: React.FC<Props> =
                     placeholder={inputPlaceholder}
                     onChange={onChangeFunction}
                     type={inputType}
+                    disabled={disabled}
                 />
             </InputContainer>
         );

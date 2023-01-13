@@ -31,6 +31,10 @@ const Lancamento = () => {
     const [lancamentos, setLancamentos] = useState<LancamentoModel[]>([]);
     const [lancamentoDeletar, setLancamentoDeletar] = useState<LancamentoModel>();
 
+    const handleLogout = () => {
+        LocalStorageService.remove("usuario_logado");
+    }
+
     const handleConfirmDialogVisibility = (lancamento: LancamentoModel) => {
         setShowConfirmDialog(true);
         setLancamentoDeletar(lancamento);
@@ -67,14 +71,13 @@ const Lancamento = () => {
     }
 
     const deletar = async () => {
-        setShowConfirmDialog(false)
-
         try {
             await lancamentoService.deletar(lancamentoDeletar?.id);
             const listaLancamentos = lancamentos;
             const index = lancamentos.indexOf(lancamentoDeletar as LancamentoModel);
             lancamentos.splice(index, 1);
             setLancamentos(listaLancamentos);
+            setShowConfirmDialog(false)
             successMessage("Lançamento deletado com sucesso !");
         } catch (e) {
             const erro = e as AxiosError;
@@ -99,6 +102,10 @@ const Lancamento = () => {
 
                         <ul>
                             <li><Link to="/lancamento">Lançamentos</Link></li>
+                        </ul>
+
+                        <ul>
+                            <li><Link to="/login" onClick={handleLogout}>Logout</Link></li>
                         </ul>
                     </div>
                 </nav>
@@ -149,7 +156,7 @@ const Lancamento = () => {
                     <div>
                         <Button title='Consultar' onClick={consultarLancamento} />
 
-                        <Link to="/lancamento"><Button title='Cadastrar Lançamento' /></Link>
+                        <Link to="/lancamentocadastro"><Button title='Cadastrar Lançamento' /></Link>
                     </div>
                 </Card>
 
