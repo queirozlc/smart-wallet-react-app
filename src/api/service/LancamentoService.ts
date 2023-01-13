@@ -1,6 +1,5 @@
 import Lancamento from "../../@types/LancamentoModel";
 import ApiService from "../ApiService";
-import LocalStorageService from "./LocalStorageService";
 
 class LancamentoService extends ApiService {
 

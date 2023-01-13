@@ -60,7 +60,7 @@ const Home: React.FC = () => {
 
                 <Card>
                     <h1>Olá {nome}, Seja bem-vindo !</h1>
-                    <h2>Seu saldo para o mês atual é: R$ {saldo}</h2>
+                    <h2>Seu saldo para o mês atual é: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(saldo)}</h2>
                     <hr />
                     <h3>Essa é sua área administrativa, você pode navegar no sistema utilizando os botões abaixo.</h3>
 

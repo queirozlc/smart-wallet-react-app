@@ -6,6 +6,7 @@ export const defaultTheme = {
         "base-link": "#AAA",
         "base-dark": "#121212",
         "base-background": "#231647",
+        "gradient": "linear-gradient(50deg, rgba(88,18,93,100) 21%, rgba(31,33,104,20) 71%);"
     },
 
     textSizes: {

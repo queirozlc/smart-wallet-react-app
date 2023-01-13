@@ -27,10 +27,13 @@ const Lancamento = () => {
     const [tipo, setTipo] = useState("");
     const [descricao, setDescricao] = useState("");
     const [showTable, setShowTable] = useState(false);
+    const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
     const [lancamentos, setLancamentos] = useState<LancamentoModel[]>([]);
+    const [lancamentoDeletar, setLancamentoDeletar] = useState<LancamentoModel>();
 
-    function hideTable() {
-        setShowTable(false);
+    const handleConfirmDialogVisibility = (lancamento: LancamentoModel) => {
+        setShowConfirmDialog(true);
+        setLancamentoDeletar(lancamento);
     }
 
     const consultarLancamento = async () => {
@@ -63,8 +66,20 @@ const Lancamento = () => {
         setShowTable(true);
     }
 
-    const deletar = async (lancamento: LancamentoModel) => {
+    const deletar = async () => {
+        setShowConfirmDialog(false)
 
+        try {
+            await lancamentoService.deletar(lancamentoDeletar?.id);
+            const listaLancamentos = lancamentos;
+            const index = lancamentos.indexOf(lancamentoDeletar as LancamentoModel);
+            lancamentos.splice(index, 1);
+            setLancamentos(listaLancamentos);
+            successMessage("Lançamento deletado com sucesso !");
+        } catch (e) {
+            const erro = e as AxiosError;
+            console.log(erro.response?.data as string);
+        }
     }
 
     const editar = async (id?: number) => {
@@ -140,10 +155,13 @@ const Lancamento = () => {
 
                 <DataTable
                     isActive={showTable}
-                    hideTable={hideTable}
+                    hideTable={() => setShowTable(false)}
                     lancamentos={lancamentos}
-                    deleteAction={deletar}
                     editAction={editar}
+                    showConfirmDialog={showConfirmDialog}
+                    onHide={() => setShowConfirmDialog(false)}
+                    deleteAction={deletar}
+                    changeConfirmDialogVisibility={handleConfirmDialogVisibility}
                 />
             </LancamentoSection>
         </>

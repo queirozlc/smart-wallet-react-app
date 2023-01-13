@@ -12,6 +12,7 @@ export const CardContainer = styled.div<Props>`
     position: absolute;
     background-color: rgba(0,0,0,.65);
     display: ${({ isActive }) => isActive === true ? 'flex' : 'none'};
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: .5s;

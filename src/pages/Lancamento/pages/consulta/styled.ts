@@ -15,11 +15,12 @@ export const LancamentoSection = styled(LoginSection)`
         min-width: 50%;
     }
 
-    > div > div {
+    > div > div:not(:last-child) {
         margin-top: 2rem;
         display: flex;
         gap: 1rem;
         justify-content: start;
     }
+
 
 `;
