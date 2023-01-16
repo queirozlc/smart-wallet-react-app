@@ -50,7 +50,7 @@ const Lancamento = () => {
             mes: mes,
             tipo: tipo,
             descricao: descricao,
-            usuario: userLogado,
+            usuario: userLogado.id,
         };
 
         if (!obj.ano) {

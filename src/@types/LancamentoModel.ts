@@ -1,5 +1,3 @@
-import Usuario from "./Usuario";
-
 interface Lancamento {
     id?: number,
     descricao?: string,
@@ -8,8 +6,7 @@ interface Lancamento {
     valor: number,
     tipo?: string,
     status?: string,
-    usuario?: Usuario,
-    idUsuario?: number,
+    usuario?: number,
 }
 
 export default Lancamento;

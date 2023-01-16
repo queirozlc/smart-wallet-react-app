@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Container } from "./styled";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { errorMessage, successMessage } from "../../../../components/util/Toast";
 
 import LocalStorageService from "../../../../api/service/LocalStorageService";
@@ -21,6 +21,7 @@ const LancamentoCadastro = () => {
     const lancamentoService = new LancamentoService();
     const meses = lancamentoService.obterListaMeses();
     const tipos = lancamentoService.obterListaTipos();
+    const navigate = useNavigate();
 
     const [descricao, setDescricao] = useState<string>("");
     const [ano, setAno] = useState<string>("");
@@ -33,24 +34,35 @@ const LancamentoCadastro = () => {
         LocalStorageService.remove("usuario_logado");
     }
 
-    const cadastrarLancament = () => {
+    const cadastrarLancamento = () => {
         const userLogado: Usuario = LocalStorageService.getItem("usuario_logado");
-
         const obj: LancamentoModel = {
             descricao,
             ano,
             valor: parseFloat(valor),
             mes,
             tipo,
-            idUsuario: userLogado.id
+            usuario: userLogado.id
         };
 
+        console.log(obj);
+        const mensagens = lancamentoService.validarLancamento(obj);
+
+        if (mensagens.length > 0 && mensagens) {
+            mensagens.forEach((msg: string) => {
+                errorMessage(msg);
+            });
+
+            return;
+        }
+
         lancamentoService.salvarLancamento(obj)
-            .then(response => {
+            .then((response: AxiosResponse<LancamentoModel>) => {
                 successMessage("Lançamento cadastrado com sucesso.");
+                navigate("/lancamento");
             }).catch((error: AxiosError) => {
                 errorMessage(error.response?.data as string);
-            })
+            });
     }
 
     return (
@@ -142,14 +154,14 @@ const LancamentoCadastro = () => {
                                     inputValue={status}
                                     label="Status:"
                                     onChangeFunction={e => setStatus(e.target.value)}
-                                    disabled={true}
+                                    readonly={true}
                                 />
                             </div>
                         </div>
                     </Form>
 
                     <div className="btn">
-                        <Button title="Cadastrar" />
+                        <Button title="Cadastrar" onClick={cadastrarLancamento} />
                         <Link to="/lancamento">
                             <Button title="Consultar Lançamentos" />
                         </Link>

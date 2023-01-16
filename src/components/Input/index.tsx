@@ -8,12 +8,12 @@ interface Props {
     inputValue: string | number,
     inputPlaceholder?: string,
     onChangeFunction: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    disabled?: boolean
+    readonly?: boolean
 }
 
 const Input: React.FC<Props> =
     (
-        { inputId, label, inputType, inputName, inputValue, inputPlaceholder, onChangeFunction, disabled }
+        { inputId, label, inputType, inputName, inputValue, inputPlaceholder, onChangeFunction, readonly }
     ) => {
         return (
             <InputContainer>
@@ -26,7 +26,7 @@ const Input: React.FC<Props> =
                     placeholder={inputPlaceholder}
                     onChange={onChangeFunction}
                     type={inputType}
-                    disabled={disabled}
+                    readOnly={readonly}
                 />
             </InputContainer>
         );

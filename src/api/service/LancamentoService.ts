@@ -53,8 +53,8 @@ class LancamentoService extends ApiService {
             params = `${params}&descricao=${lancamento.descricao}`;
         }
 
-        if (lancamento.usuario?.id) {
-            params = `${params}&usuario=${lancamento.usuario.id}`
+        if (lancamento.usuario) {
+            params = `${params}&usuario=${lancamento.usuario}`
         }
 
         return this.get(params);
@@ -66,6 +66,22 @@ class LancamentoService extends ApiService {
 
     deletar(id?: number) {
         return this.delete(`/deletar/${id}`);
+    }
+
+    validarLancamento(lancamento: Lancamento): Array<string> {
+        let mensagens: string[] = [];
+
+        if (!lancamento.ano || !lancamento.mes ||
+            !lancamento.descricao || !lancamento.valor ||
+            !lancamento.tipo) {
+            mensagens.push("Preencha todos os campos.");
+        }
+
+        if (!lancamento.usuario) {
+            mensagens.push("Usuário não encontrado.");
+        }
+
+        return mensagens;
     }
 }
 
