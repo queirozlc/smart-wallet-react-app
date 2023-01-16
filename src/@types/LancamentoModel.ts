@@ -8,7 +8,8 @@ interface Lancamento {
     valor: number,
     tipo?: string,
     status?: string,
-    usuario?: Usuario
+    usuario?: Usuario,
+    idUsuario?: number,
 }
 
 export default Lancamento;

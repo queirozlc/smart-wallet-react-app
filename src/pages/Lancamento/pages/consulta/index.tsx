@@ -15,6 +15,7 @@ import ComboBox from '../../../../components/ComboBox';
 import Button from '../../../../components/Button';
 import LancamentoService from '../../../../api/service/LancamentoService';
 import DataTable from '../../components/Datatable';
+import Usuario from '../../../../@types/Usuario';
 
 const Lancamento = () => {
     document.title = "SmartWallet - Consultar Lançamentos"
@@ -41,13 +42,15 @@ const Lancamento = () => {
     }
 
     const consultarLancamento = async () => {
+        const userLogado: Usuario = LocalStorageService.getItem("usuario_logado");
+
         const obj: LancamentoModel = {
             valor: 0,
             ano: ano,
             mes: mes,
             tipo: tipo,
             descricao: descricao,
-            usuario: LocalStorageService.getItem("usuario_logado"),
+            usuario: userLogado,
         };
 
         if (!obj.ano) {

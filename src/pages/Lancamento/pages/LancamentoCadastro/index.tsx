@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Container } from "./styled";
+import { AxiosError } from "axios";
+import { errorMessage, successMessage } from "../../../../components/util/Toast";
 
 import LocalStorageService from "../../../../api/service/LocalStorageService";
+import LancamentoService from "../../../../api/service/LancamentoService";
+import LancamentoModel from "../../../../@types/LancamentoModel";
+import Usuario from "../../../../@types/Usuario";
 
 import Card from "../../../../components/Card";
 import Header from "../../../../components/Header";
@@ -10,7 +15,6 @@ import Form from "../../../../components/Form";
 import Button from "../../../../components/Button";
 import Input from "../../../../components/Input";
 import ComboBox from "../../../../components/ComboBox";
-import LancamentoService from "../../../../api/service/LancamentoService";
 
 const LancamentoCadastro = () => {
     document.title = "SmartWallet - Cadastrar Lançamento"
@@ -27,6 +31,26 @@ const LancamentoCadastro = () => {
 
     const handleLogout = () => {
         LocalStorageService.remove("usuario_logado");
+    }
+
+    const cadastrarLancament = () => {
+        const userLogado: Usuario = LocalStorageService.getItem("usuario_logado");
+
+        const obj: LancamentoModel = {
+            descricao,
+            ano,
+            valor: parseFloat(valor),
+            mes,
+            tipo,
+            idUsuario: userLogado.id
+        };
+
+        lancamentoService.salvarLancamento(obj)
+            .then(response => {
+                successMessage("Lançamento cadastrado com sucesso.");
+            }).catch((error: AxiosError) => {
+                errorMessage(error.response?.data as string);
+            })
     }
 
     return (
