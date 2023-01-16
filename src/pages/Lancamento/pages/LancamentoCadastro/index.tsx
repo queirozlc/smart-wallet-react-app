@@ -24,6 +24,7 @@ const LancamentoCadastro = () => {
     const navigate = useNavigate();
 
     const [descricao, setDescricao] = useState<string>("");
+    const [id, setId] = useState<number>(0);
     const [ano, setAno] = useState<string>("");
     const [mes, setMes] = useState<string>("");
     const [valor, setValor] = useState<string>("");
@@ -45,7 +46,6 @@ const LancamentoCadastro = () => {
             usuario: userLogado.id
         };
 
-        console.log(obj);
         const mensagens = lancamentoService.validarLancamento(obj);
 
         if (mensagens.length > 0 && mensagens) {
@@ -58,6 +58,7 @@ const LancamentoCadastro = () => {
 
         lancamentoService.salvarLancamento(obj)
             .then((response: AxiosResponse<LancamentoModel>) => {
+                setId(response.data.id as number);
                 successMessage("Lançamento cadastrado com sucesso.");
                 navigate("/lancamento");
             }).catch((error: AxiosError) => {
@@ -154,7 +155,7 @@ const LancamentoCadastro = () => {
                                     inputValue={status}
                                     label="Status:"
                                     onChangeFunction={e => setStatus(e.target.value)}
-                                    readonly={true}
+                                    readonly={id > 0 ? false : true}
                                 />
                             </div>
                         </div>
