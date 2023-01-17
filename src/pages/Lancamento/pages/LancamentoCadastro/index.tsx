@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Container } from "./styled";
 import { AxiosError, AxiosResponse } from "axios";
 import { errorMessage, successMessage } from "../../../../components/util/Toast";
@@ -22,9 +22,9 @@ const LancamentoCadastro = () => {
     const meses = lancamentoService.obterListaMeses();
     const tipos = lancamentoService.obterListaTipos();
     const navigate = useNavigate();
+    const { id } = useParams();
 
     const [descricao, setDescricao] = useState<string>("");
-    const [id, setId] = useState<number>(0);
     const [ano, setAno] = useState<string>("");
     const [mes, setMes] = useState<string>("");
     const [valor, setValor] = useState<string>("");
@@ -58,13 +58,64 @@ const LancamentoCadastro = () => {
 
         lancamentoService.salvarLancamento(obj)
             .then((response: AxiosResponse<LancamentoModel>) => {
-                setId(response.data.id as number);
                 successMessage("Lançamento cadastrado com sucesso.");
                 navigate("/lancamento");
             }).catch((error: AxiosError) => {
                 errorMessage(error.response?.data as string);
             });
     }
+
+    const atualizarLancamento = () => {
+        const userLogado: Usuario = LocalStorageService.getItem("usuario_logado");
+        const idLancamento = parseInt(id as string);
+        const obj: LancamentoModel = {
+            id: idLancamento,
+            descricao,
+            ano,
+            valor: parseFloat(valor),
+            mes,
+            tipo,
+            usuario: userLogado.id
+        };
+
+        const mensagens = lancamentoService.validarLancamento(obj);
+
+        if (mensagens.length > 0 && mensagens) {
+            mensagens.forEach((msg: string) => {
+                errorMessage(msg);
+            });
+
+            return;
+        }
+
+        lancamentoService.atualizarLancamento(obj)
+            .then((response: AxiosResponse<LancamentoModel>) => {
+                successMessage("Lançamento atualizado com sucesso.");
+            }).catch((error: AxiosError) => {
+                errorMessage(error.response?.data as string);
+            });
+    }
+
+    useEffect(() => {
+        if (id) {
+            lancamentoService.buscarPorId(parseInt(id))
+                .then(({ data }: AxiosResponse<LancamentoModel>) => {
+                    if (!data) {
+                        errorMessage("Lançamento não encontrado.");
+                        return;
+                    }
+                    setDescricao(data.descricao as string);
+                    setAno(data.ano as string);
+                    setMes(data.mes as string);
+                    setTipo(data.tipo as string);
+                    setValor(data.valor.toString());
+                    setStatus(data.status as string);
+                }).catch((error: AxiosError) => {
+                    errorMessage("Lançamento não encontrado.");
+                });
+        }
+
+    }, []);
 
     return (
         <>
@@ -155,14 +206,17 @@ const LancamentoCadastro = () => {
                                     inputValue={status}
                                     label="Status:"
                                     onChangeFunction={e => setStatus(e.target.value)}
-                                    readonly={id > 0 ? false : true}
+                                    readonly={true}
                                 />
                             </div>
                         </div>
                     </Form>
 
                     <div className="btn">
-                        <Button title="Cadastrar" onClick={cadastrarLancamento} />
+                        <Button
+                            title={id ? 'Atualizar Lançamento' : 'Cadastrar Lançamento'}
+                            onClick={id ? atualizarLancamento : cadastrarLancamento}
+                        />
                         <Link to="/lancamento">
                             <Button title="Consultar Lançamentos" />
                         </Link>

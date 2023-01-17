@@ -60,12 +60,20 @@ class LancamentoService extends ApiService {
         return this.get(params);
     }
 
+    atualizarLancamento(lancamento: Lancamento) {
+        return this.put(`/atualizarlancamento/${lancamento.id}`, lancamento);
+    }
+
     salvarLancamento(lancamento: Lancamento) {
         return this.post("/salvarlancamento", lancamento);
     }
 
     deletar(id?: number) {
         return this.delete(`/deletar/${id}`);
+    }
+
+    buscarPorId(id?: number) {
+        return this.get(`/${id}`);
     }
 
     validarLancamento(lancamento: Lancamento): Array<string> {

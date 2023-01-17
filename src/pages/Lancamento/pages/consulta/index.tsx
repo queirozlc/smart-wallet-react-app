@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { LancamentoSection } from './styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { errorMessage, successMessage, warningMessage } from '../../../../components/util/Toast';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
 import LancamentoModel from '../../../../@types/LancamentoModel';
 import LocalStorageService from '../../../../api/service/LocalStorageService';
@@ -22,11 +22,13 @@ const Lancamento = () => {
     const lancamentoService = new LancamentoService();
     const meses = lancamentoService.obterListaMeses();
     const tipos = lancamentoService.obterListaTipos();
-
+    const navigate = useNavigate();
     const [ano, setAno] = useState<string>("");
     const [mes, setMes] = useState("");
     const [tipo, setTipo] = useState("");
     const [descricao, setDescricao] = useState("");
+    const [valor, setValor] = useState<number>(0);
+    const [status, setStatus] = useState<string>("");
     const [showTable, setShowTable] = useState(false);
     const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
     const [lancamentos, setLancamentos] = useState<LancamentoModel[]>([]);
@@ -89,7 +91,7 @@ const Lancamento = () => {
     }
 
     const editar = async (id?: number) => {
-        console.log(lancamentos);
+        navigate(`/lancamentocadastro/${id}`);
     }
 
     return (
