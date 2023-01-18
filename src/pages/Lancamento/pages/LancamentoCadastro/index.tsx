@@ -23,6 +23,7 @@ const LancamentoCadastro = () => {
     const lancamentoService = new LancamentoService();
     const meses = lancamentoService.obterListaMeses();
     const tipos = lancamentoService.obterListaTipos();
+    const listaStatus = lancamentoService.obterListaStatus();
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -78,6 +79,7 @@ const LancamentoCadastro = () => {
             valor: parseFloat(valor),
             mes,
             tipo,
+            status,
             usuario: userLogado.id
         };
 
@@ -94,6 +96,13 @@ const LancamentoCadastro = () => {
         lancamentoService.atualizarLancamento(obj)
             .then((response: AxiosResponse<LancamentoModel>) => {
                 successMessage("Lançamento atualizado com sucesso.");
+            }).catch((error: AxiosError) => {
+                errorMessage(error.response?.data as string);
+            });
+
+        lancamentoService
+            .alterarStatus(obj, status)
+            .then((response: AxiosResponse<LancamentoModel>) => {
             }).catch((error: AxiosError) => {
                 errorMessage(error.response?.data as string);
             });
@@ -202,14 +211,14 @@ const LancamentoCadastro = () => {
                                     onChange={e => setTipo(e.target.value)}
                                 />
 
-                                <Input
-                                    inputId='status'
-                                    inputName='status'
-                                    inputType='text'
-                                    inputValue={status}
+                                <ComboBox
+                                    listOptions={listaStatus}
                                     label="Status:"
-                                    onChangeFunction={e => setStatus(e.target.value)}
-                                    readonly={true}
+                                    selectId='status'
+                                    selectName='status'
+                                    selectValue={status}
+                                    onChange={e => setStatus(e.target.value)}
+                                    disabled={id ? false : true}
                                 />
                             </div>
                         </div>

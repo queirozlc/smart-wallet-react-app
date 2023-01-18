@@ -15,13 +15,14 @@ import Form from "../../components/Form";
 import Header from "../../components/Header";
 import Input from "../../components/Input";
 
-const Login = () => {
+
+const Login: React.FC = () => {
     document.title = "SmartWallet - Login"
     const usuarioService = new UsuarioService();
     const navigate = useNavigate();
-
     const [email, setEmail] = useState<string>("");
     const [senha, setSenha] = useState<string>("");
+
 
     const autenticar = async () => {
         const obj: Usuario = {

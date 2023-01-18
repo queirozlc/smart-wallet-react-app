@@ -39,6 +39,17 @@ class LancamentoService extends ApiService {
         return tipos;
     }
 
+    obterListaStatus(): { label: string, value: string }[] {
+        const status =
+            [
+                { label: 'Pendente', value: 'PENDENTE' },
+                { label: 'Efetivado', value: 'EFETIVADO' },
+                { label: 'Cancelado', value: 'CANCELADO' },
+            ];
+
+        return status;
+    }
+
     buscarLancamento(lancamento: Lancamento) {
         let params = `?ano=${lancamento.ano}`;
 
@@ -93,6 +104,10 @@ class LancamentoService extends ApiService {
         if (mensagens && mensagens.length > 0) {
             throw new ErroValidacao(mensagens);
         }
+    }
+
+    alterarStatus(obj: Lancamento, status: string) {
+        return this.put(`/atualizarstatus/${obj.id}`, { status });
     }
 }
 

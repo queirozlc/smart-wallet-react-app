@@ -6,25 +6,32 @@ interface Props {
     selectId: string,
     label: string,
     selectValue: string,
-    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void,
+    disabled?: boolean;
 }
 
-const ComboBox: React.FC<Props> = ({ listOptions, selectName, selectId, label, selectValue, onChange }) => {
-    const options = listOptions.map((item: { label: string, value: number | string }, index) => {
+const ComboBox: React.FC<Props> =
+    ({ listOptions, selectName, selectId, label, selectValue, onChange, disabled }) => {
+        const options = listOptions.map((item: { label: string, value: number | string }, index) => {
+            return (
+                <option value={item.value} key={index}>{item.label}</option>
+            )
+        });
+
         return (
-            <option value={item.value} key={index}>{item.label}</option>
-        )
-    });
+            <ComboBoxContainer >
+                <label htmlFor={selectId}>{label}</label>
 
-    return (
-        <ComboBoxContainer>
-            <label htmlFor={selectId}>{label}</label>
-
-            <select name={selectName} id={selectId} value={selectValue} onChange={onChange}>
-                {options}
-            </select>
-        </ComboBoxContainer>
-    );
-};
+                <select
+                    name={selectName}
+                    id={selectId}
+                    value={selectValue}
+                    onChange={onChange}
+                    disabled={disabled}>
+                    {options}
+                </select>
+            </ComboBoxContainer>
+        );
+    };
 
 export default ComboBox;
