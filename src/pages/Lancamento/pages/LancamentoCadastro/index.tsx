@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Container } from "./styled";
@@ -7,6 +8,7 @@ import { errorMessage, successMessage } from "../../../../components/util/Toast"
 import LocalStorageService from "../../../../api/service/LocalStorageService";
 import LancamentoService from "../../../../api/service/LancamentoService";
 import LancamentoModel from "../../../../@types/LancamentoModel";
+import ErroValidacao from "../../../../exception/ErroValidacao";
 import Usuario from "../../../../@types/Usuario";
 
 import Card from "../../../../components/Card";
@@ -46,13 +48,14 @@ const LancamentoCadastro = () => {
             usuario: userLogado.id
         };
 
-        const mensagens = lancamentoService.validarLancamento(obj);
-
-        if (mensagens.length > 0 && mensagens) {
+        try {
+            lancamentoService.validarLancamento(obj);
+        } catch (e) {
+            const erro = e as ErroValidacao;
+            const mensagens = erro.mensagens;
             mensagens.forEach((msg: string) => {
                 errorMessage(msg);
             });
-
             return;
         }
 
@@ -78,13 +81,13 @@ const LancamentoCadastro = () => {
             usuario: userLogado.id
         };
 
-        const mensagens = lancamentoService.validarLancamento(obj);
-
-        if (mensagens.length > 0 && mensagens) {
-            mensagens.forEach((msg: string) => {
+        try {
+            lancamentoService.validarLancamento(obj);
+        } catch (e) {
+            const erro = e as ErroValidacao;
+            erro.mensagens.forEach((msg: string) => {
                 errorMessage(msg);
             });
-
             return;
         }
 
@@ -141,7 +144,7 @@ const LancamentoCadastro = () => {
 
             <Container>
                 <Card>
-                    <h1>Cadastro de Lançamentos</h1>
+                    <h1>{id ? 'Atualizar Lançamento' : 'Cadastro de Lançamentos'}</h1>
                     <hr />
 
                     <Form>

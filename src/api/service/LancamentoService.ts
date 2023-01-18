@@ -1,4 +1,5 @@
 import Lancamento from "../../@types/LancamentoModel";
+import ErroValidacao from "../../exception/ErroValidacao";
 import ApiService from "../ApiService";
 
 class LancamentoService extends ApiService {
@@ -76,7 +77,7 @@ class LancamentoService extends ApiService {
         return this.get(`/${id}`);
     }
 
-    validarLancamento(lancamento: Lancamento): Array<string> {
+    validarLancamento(lancamento: Lancamento): void {
         let mensagens: string[] = [];
 
         if (!lancamento.ano || !lancamento.mes ||
@@ -89,7 +90,9 @@ class LancamentoService extends ApiService {
             mensagens.push("Usuário não encontrado.");
         }
 
-        return mensagens;
+        if (mensagens && mensagens.length > 0) {
+            throw new ErroValidacao(mensagens);
+        }
     }
 }
 

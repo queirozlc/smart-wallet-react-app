@@ -27,7 +27,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Cadastro />} />
             <Route path="/lancamento" element={<Lancamento />} />
-            <Route path="/lancamentocadastro/:id" element={<LancamentoCadastro />} />
+            <Route path="/lancamentocadastro/:id?" element={<LancamentoCadastro />} />
             <Route path="/*" element={<Error />} />
           </Routes>
         </Router>

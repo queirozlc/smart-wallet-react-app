@@ -5,6 +5,7 @@ import { errorMessage } from '../../components/util/Toast';
 
 import LocalStorageService from '../../api/service/LocalStorageService';
 import UsuarioService from '../../api/service/UsuarioService';
+import ErroValidacao from '../../exception/ErroValidacao';
 
 import Header from '../../components/Header';
 import Card from '../../components/Card';
@@ -23,39 +24,25 @@ const Cadastro = () => {
     const [senha, setSenha] = useState("");
     const [senhaConfirmacao, setSenhaConfirmacao] = useState("");
 
-    const validar = (): Array<string> => {
-        const mensagens = [];
 
-        if (!nome || !email || !senha || !senhaConfirmacao) {
-            mensagens.push("Preencha todos os campos.");
-        }
-
-        if (email && !email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/)) {
-            mensagens.push("Informe um email válido.");
-        }
-
-        if (senha !== senhaConfirmacao) {
-            mensagens.push("As senhas não coincidem.");
-        }
-
-        return mensagens;
-    }
 
     const criarConta = async () => {
-        const msgs = validar();
-
-        if (msgs && msgs.length > 0) {
-            msgs.forEach(msg => {
-                errorMessage(msg);
-            });
-            return false;
-        }
-
         const obj: Usuario = {
             nome: nome,
             email: email,
             senha: senha,
+            senhaConfirmacao: senhaConfirmacao,
         };
+
+        try {
+            usuarioService.validar(obj);
+        } catch (e) {
+            const erro = e as ErroValidacao;
+            erro.mensagens.forEach((msg: string) => {
+                errorMessage(msg);
+            });
+            return;
+        }
 
         try {
             const response = await usuarioService.cadastrar(obj);
