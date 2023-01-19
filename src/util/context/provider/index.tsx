@@ -1,10 +1,10 @@
-import { ReactNode, useState, createContext } from "react";
+import { useState, createContext } from "react";
 import Usuario from "../../../@types/Usuario";
 import { AuthService } from "../../../api/service/AuthService";
 import LocalStorageService from "../../../api/service/LocalStorageService";
 
 interface Props {
-    children: ReactNode
+    children: JSX.Element
 }
 
 interface IAuthContext {
@@ -14,22 +14,20 @@ interface IAuthContext {
     closeSession(): void
 }
 
-export const AuthContext = createContext({} as IAuthContext);
+export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 
 const AuthProvider: React.FC<Props> = ({ children }) => {
     const [userAuthenticated, setUserAuthenticated] = useState<Usuario | null>(null);
-    const [isAuth, setIsAuth] = useState<boolean>(false);
+    const authService = new AuthService();
 
     const initSession = (user: Usuario) => {
-        AuthService.login(user);
+        authService.login(user);
         setUserAuthenticated(user);
-        setIsAuth(true);
     }
 
     const closeSession = () => {
         LocalStorageService.remove("usuario_logado");
-        setIsAuth(false);
         setUserAuthenticated(null);
     }
 
@@ -37,7 +35,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     return (
         <AuthContext.Provider value={{
             userAuthenticated,
-            isAuth,
+            isAuth: !!userAuthenticated,
             closeSession,
             initSession
         }}>

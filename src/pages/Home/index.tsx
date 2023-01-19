@@ -20,7 +20,7 @@ const Home: React.FC = () => {
     const { userAuthenticated, closeSession } = useAuthContext();
 
     const handleLogout = () => {
-        closeSession()
+        closeSession();
     }
 
     useEffect(() => {

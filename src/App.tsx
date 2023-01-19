@@ -6,6 +6,7 @@ import Rotas from "./routes";
 
 import 'toastr/build/toastr.css';
 import 'toastr/build/toastr.min.js';
+import AuthProvider from "./util/context/provider";
 
 
 function App() {
@@ -13,7 +14,9 @@ function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyle />
-      <Rotas />
+      <AuthProvider>
+        <Rotas />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

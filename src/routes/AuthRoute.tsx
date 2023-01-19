@@ -1,5 +1,4 @@
 import { Navigate } from 'react-router';
-import { AuthService } from '../api/service/AuthService';
 import { useAuthContext } from '../util/hook/hook';
 
 interface Props {

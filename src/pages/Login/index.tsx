@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/heading-has-content */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LoginSection } from "./styled";
 import { Link, useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { errorMessage } from "../../components/util/Toast";
+import { useAuthContext } from "../../util/hook/hook";
 
 import UsuarioService from "../../api/service/UsuarioService";
 
@@ -13,7 +14,6 @@ import Card from "../../components/Card";
 import Form from "../../components/Form";
 import Header from "../../components/Header";
 import Input from "../../components/Input";
-import { useAuthContext } from "../../util/hook/hook";
 
 const Login: React.FC = () => {
     document.title = "SmartWallet - Login"
@@ -22,15 +22,12 @@ const Login: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [senha, setSenha] = useState<string>("");
     const { initSession } = useAuthContext();
+    const obj: Usuario = { email: email, senha: senha, };
 
     const autenticar = async () => {
-        const obj: Usuario = {
-            email: email,
-            senha: senha,
-        };
         try {
             const response = await usuarioService.autenticar(obj);
-            initSession(response.data as Usuario);
+            initSession(response.data);
             navigate("/");
         } catch (e) {
             const erro = e as AxiosError;
