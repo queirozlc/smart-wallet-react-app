@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthRoute } from "./AuthRoute";
+
 import Cadastro from "../pages/Cadastro";
 import Home from "../pages/Home";
+import Error from "../pages/Error";
 import Lancamento from "../pages/Lancamento/pages/consulta";
 import LancamentoCadastro from "../pages/Lancamento/pages/LancamentoCadastro";
 import Login from "../pages/Login";
-import Error from "../pages/Error";
-import AuthService from "../api/service/AuthService";
-import { useContext } from "react";
+
 
 const Rotas = () => {
     return (
@@ -17,15 +18,26 @@ const Rotas = () => {
                 <Route path="/*" element={<Error />} />
                 <Route
                     path="/"
-                    element={AuthService.userAuthenticated() ? <Home /> : <Login />}
+                    element={
+                        <AuthRoute>
+                            <Home />
+                        </AuthRoute>
+                    }
                 />
                 <Route
                     path="/lancamento"
-                    element={AuthService.userAuthenticated() ? <Lancamento /> : <Login />}
+                    element={
+                        <AuthRoute>
+                            <Lancamento />
+                        </AuthRoute>
+                    }
                 />
                 <Route
                     path="/lancamentocadastro/:id?"
-                    element={AuthService.userAuthenticated() ? <LancamentoCadastro /> : <Login />}
+                    element={
+                        <AuthRoute>
+                            <LancamentoCadastro />
+                        </AuthRoute>}
                 />
             </Routes>
         </Router>
