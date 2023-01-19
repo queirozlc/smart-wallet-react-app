@@ -15,11 +15,8 @@ export const CardContainer = styled.div<Props>`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: .5s;
-    left: -400%;
-    ${({ isActive }) => isActive && css`
-        left: 0;
-    `};
+    transition: all .5s ease-in-out;
+    transform: ${({ isActive }) => isActive ? 'translate(0%, 0%)' : 'translate(0%, -100%)'};
 `;
 
 export const Table = styled.table`

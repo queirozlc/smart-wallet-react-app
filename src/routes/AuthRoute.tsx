@@ -1,16 +1,17 @@
 import { Navigate } from 'react-router';
 import { AuthService } from '../api/service/AuthService';
+import { useAuthContext } from '../util/hook/hook';
 
 interface Props {
     children: JSX.Element;
 }
 
 export const AuthRoute: React.FC<Props> = ({ children }) => {
-    const user = AuthService.userAuthenticated();
+    const { isAuth } = useAuthContext();
 
     return (
         <>
-            {user ? children : <Navigate to="/login" />}
+            {isAuth ? children : <Navigate to="/login" />}
         </>
     );
 }

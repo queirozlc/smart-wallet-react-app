@@ -10,6 +10,7 @@ export const Card = styled.div`
     box-shadow: inset 6px 6px 34px 4px rgba(0,0,0,0.6);
     flex-direction: column;
     gap: 4rem;
+    transition: all .5s ease-in-out;
 
     > div > div {
         display: flex;

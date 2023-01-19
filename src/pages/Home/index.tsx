@@ -8,8 +8,8 @@ import UsuarioService from "../../api/service/UsuarioService";
 import Header from '../../components/Header'
 import Card from "../../components/Card";
 import Button from "../../components/Button";
+import { useAuthContext } from "../../util/hook/hook";
 import Usuario from "../../@types/Usuario";
-import LocalStorageService from "../../api/service/LocalStorageService";
 
 const Home: React.FC = () => {
     document.title = "SmartWallet - Início"
@@ -17,22 +17,21 @@ const Home: React.FC = () => {
 
     const [nome, setNome] = useState<string | undefined>();
     const [saldo, setSaldo] = useState(0);
+    const { userAuthenticated, closeSession } = useAuthContext();
 
     const handleLogout = () => {
-        localStorage.removeItem("usuario_logado");
+        closeSession()
     }
 
     useEffect(() => {
-        const usuarioLogado = LocalStorageService.getItem("usuario_logado") as Usuario;
-        setNome(usuarioLogado.nome);
-
-        usuarioService.consultarSaldo(usuarioLogado.id)
+        setNome((userAuthenticated as Usuario).nome);
+        usuarioService.consultarSaldo((userAuthenticated as Usuario).id)
             .then(response => {
                 setSaldo(response.data);
             }).catch(error => {
                 console.log(error);
             });
-    }, [usuarioService]);
+    }, [userAuthenticated]);
 
     return (
         <>

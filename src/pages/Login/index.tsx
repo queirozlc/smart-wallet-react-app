@@ -1,12 +1,11 @@
 /* eslint-disable jsx-a11y/heading-has-content */
-import { ContextType, useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import { LoginSection } from "./styled";
 import { Link, useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { errorMessage } from "../../components/util/Toast";
 
 import UsuarioService from "../../api/service/UsuarioService";
-import LocalStorageService from "../../api/service/LocalStorageService";
 
 import Usuario from "../../@types/Usuario";
 import Button from "../../components/Button";
@@ -14,14 +13,7 @@ import Card from "../../components/Card";
 import Form from "../../components/Form";
 import Header from "../../components/Header";
 import Input from "../../components/Input";
-import { AuthenticatorProvider } from "../../util/AuthProvider";
-
-interface Context {
-    userAuthenticated: Usuario,
-    isAuth: boolean,
-    initSession(usuario: Usuario): void,
-    closeSession(): void
-}
+import { useAuthContext } from "../../util/hook/hook";
 
 const Login: React.FC = () => {
     document.title = "SmartWallet - Login"
@@ -29,7 +21,7 @@ const Login: React.FC = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState<string>("");
     const [senha, setSenha] = useState<string>("");
-    const context = useContext(AuthenticatorProvider);
+    const { initSession } = useAuthContext();
 
     const autenticar = async () => {
         const obj: Usuario = {
@@ -38,7 +30,7 @@ const Login: React.FC = () => {
         };
         try {
             const response = await usuarioService.autenticar(obj);
-            LocalStorageService.addItem("usuario_logado", response.data);
+            initSession(response.data as Usuario);
             navigate("/");
         } catch (e) {
             const erro = e as AxiosError;
