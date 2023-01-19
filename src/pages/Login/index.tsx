@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/heading-has-content */
-import { useState } from "react";
+import { ContextType, useContext, useState } from "react";
 import { LoginSection } from "./styled";
 import { Link, useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
@@ -14,7 +14,14 @@ import Card from "../../components/Card";
 import Form from "../../components/Form";
 import Header from "../../components/Header";
 import Input from "../../components/Input";
+import { AuthenticatorProvider } from "../../util/AuthProvider";
 
+interface Context {
+    userAuthenticated: Usuario,
+    isAuth: boolean,
+    initSession(usuario: Usuario): void,
+    closeSession(): void
+}
 
 const Login: React.FC = () => {
     document.title = "SmartWallet - Login"
@@ -22,7 +29,7 @@ const Login: React.FC = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState<string>("");
     const [senha, setSenha] = useState<string>("");
-
+    const context = useContext(AuthenticatorProvider);
 
     const autenticar = async () => {
         const obj: Usuario = {

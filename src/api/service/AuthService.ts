@@ -8,4 +8,8 @@ export class AuthService {
         return usuario && usuario.id ? true : false;
     }
 
+    static login(user: Usuario) {
+        LocalStorageService.addItem("usuario_logado", user);
+    }
+
 }
