@@ -1,9 +1,8 @@
 import { CadastroSection } from './styled';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { errorMessage } from '../../components/util/Toast';
+import { errorMessage, successMessage } from '../../components/util/Toast';
 
-import LocalStorageService from '../../api/service/LocalStorageService';
 import UsuarioService from '../../api/service/UsuarioService';
 import ErroValidacao from '../../exception/ErroValidacao';
 
@@ -46,8 +45,9 @@ const Cadastro = () => {
 
         try {
             const response = await usuarioService.cadastrar(obj);
-            LocalStorageService.addItem("usuario_logado", response.data);
-            navigate("/");
+            console.log(response.data);
+            navigate("/login");
+            successMessage("Cadastro realizado com sucesso !");
         } catch (error) {
             console.log(error);
         }

@@ -1,4 +1,3 @@
-import { TokenDto } from "../../@types/TokenDto";
 import { Claims } from "../../@types/Claims";
 
 import Usuario from "../../@types/Usuario";
@@ -12,10 +11,14 @@ export class AuthService {
 
     userAuthenticated(): boolean {
         const token = LocalStorageService.getItem(TOKEN);
-        const decodedToken: Claims = jwtDecode(token);
-        const { exp } = decodedToken;
-        const tokenIsValid: boolean = Boolean(Date.now() >= (exp * 1000));
-        return !tokenIsValid;
+
+        if (token) {
+            const decodedToken: Claims = jwtDecode(token);
+            const { exp } = decodedToken;
+            const tokenIsValid: boolean = Boolean(Date.now() >= (exp * 1000));
+            return !tokenIsValid;
+        }
+        return false;
     }
 
     login(user: Usuario, token: string) {

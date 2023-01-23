@@ -6,7 +6,6 @@ import { Claims } from "../../../@types/Claims";
 import jwtDecode from "jwt-decode";
 
 import Usuario from "../../../@types/Usuario";
-import LocalStorageService from "../../../api/service/LocalStorageService";
 
 interface Props {
     children: JSX.Element
@@ -15,8 +14,9 @@ interface Props {
 interface IAuthContext {
     userAuthenticated: Usuario | null,
     isAuth: boolean,
+    isLoading: boolean
     initSession(user: Usuario): void,
-    closeSession(): void
+    closeSession(): void,
 }
 
 export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
@@ -24,7 +24,8 @@ export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 const AuthProvider: React.FC<Props> = ({ children }) => {
     const [userAuthenticated, setUserAuthenticated] = useState<null | Usuario>(null);
-    const [isAuth, setIsAuth] = useState(false);
+    const [isAuth, setIsAuth] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const authService = new AuthService();
 
     const initSession = (TokenDto: TokenDto) => {
@@ -40,32 +41,39 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     }
 
     const closeSession = () => {
-        LocalStorageService.remove("usuario_logado");
+        authService.logout();
         setUserAuthenticated(null);
         setIsAuth(false)
     }
 
     useEffect(() => {
         const isUserAuthenticated = authService.userAuthenticated();
-        console.log('Usuario Autenticado', isUserAuthenticated);
 
         if (isUserAuthenticated) {
             const usuario = authService.refreshSession();
             setIsAuth(true);
+            setIsLoading(false)
             setUserAuthenticated(usuario)
-            console.log(isAuth);
+        } else {
+            setIsLoading(false);
         }
     }, []);
+
+    if (isLoading) {
+        return null;
+    }
 
     return (
         <AuthContext.Provider value={{
             userAuthenticated,
             isAuth,
             closeSession,
-            initSession
+            initSession,
+            isLoading
         }}>
             {children}
         </AuthContext.Provider>
+
     );
 };
 
