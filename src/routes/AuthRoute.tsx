@@ -7,10 +7,5 @@ interface Props {
 
 export const AuthRoute: React.FC<Props> = ({ children }) => {
     const { isAuth } = useAuthContext();
-
-    return (
-        <>
-            {isAuth ? children : <Navigate to="/login" />}
-        </>
-    );
+    return isAuth ? children : <Navigate to="/login" />
 }

@@ -2,9 +2,10 @@
 import { useState } from "react";
 import { LoginSection } from "./styled";
 import { Link, useNavigate } from "react-router-dom";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { errorMessage } from "../../components/util/Toast";
 import { useAuthContext } from "../../util/hook/hook";
+import { TokenDto } from "../../@types/TokenDto";
 
 import UsuarioService from "../../api/service/UsuarioService";
 
@@ -26,7 +27,7 @@ const Login: React.FC = () => {
 
     const autenticar = async () => {
         try {
-            const response = await usuarioService.autenticar(obj);
+            const response: AxiosResponse<TokenDto> = await usuarioService.autenticar(obj);
             initSession(response.data);
             navigate("/");
         } catch (e) {
