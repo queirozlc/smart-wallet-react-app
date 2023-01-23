@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import { AuthService } from "../../../api/service/AuthService";
 import { TokenDto } from "../../../@types/TokenDto";
 import { Claims } from "../../../@types/Claims";
@@ -7,7 +7,6 @@ import jwtDecode from "jwt-decode";
 
 import Usuario from "../../../@types/Usuario";
 import LocalStorageService from "../../../api/service/LocalStorageService";
-import ApiService from "../../../api/ApiService";
 
 interface Props {
     children: JSX.Element
@@ -35,10 +34,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
             id: claims.id,
             nome: claims.nome,
         };
-
-        ApiService.registrarToken(token);
-
-        authService.login(usuario);
+        authService.login(usuario, token);
         setUserAuthenticated(usuario);
         setIsAuth(true);
     }
@@ -48,6 +44,18 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         setUserAuthenticated(null);
         setIsAuth(false)
     }
+
+    useEffect(() => {
+        const isUserAuthenticated = authService.userAuthenticated();
+        console.log('Usuario Autenticado', isUserAuthenticated);
+
+        if (isUserAuthenticated) {
+            const usuario = authService.refreshSession();
+            setIsAuth(true);
+            setUserAuthenticated(usuario)
+            console.log(isAuth);
+        }
+    }, []);
 
     return (
         <AuthContext.Provider value={{
